@@ -9,6 +9,7 @@ export default function Home () {
   const [ip, setIp] = useState('0.0.0.0')
   const [createdAt, setCreatedAt] = useState('0000-00-00')
   const [geoLocation, setGeoLocation] = useState({ lat: '0.00', lon: '0.00' })
+  const [location, setLocation] = useState({ city: 'city', country: 'country' })
 
   const handleTrim = () => {
     let date = new Date()
@@ -27,12 +28,12 @@ export default function Home () {
   }
 
   const fetchIp = async () => {
-    await fetch('http://ip-api.com/json')
+    await fetch('https://ipapi.co/json/')
       .then(response => response.json())
       .then(data => {
-        // console.log(data)
-        setIp(data.query)
-        setGeoLocation({ lat: data.lat, lon: data.lon })
+        setLocation({ city: data.city, country: data.country_name })
+        setIp(data.ip)
+        setGeoLocation({ lat: data.latitude, lon: data.longitude })
       })
       .catch(error => {
         console.log('error', error)
@@ -59,6 +60,7 @@ export default function Home () {
             <th>Sign</th>
             <th>IP</th>
             <th>Geolocation</th>
+            <th>Address</th>
             <th>Signed At</th>
           </tr>
           </thead>
@@ -68,6 +70,7 @@ export default function Home () {
             <td><img src={trimmedDataURL} width={100}/></td>
             <td>{ip}</td>
             <td>Lat - {geoLocation.lat} , Long - {geoLocation.lon}</td>
+            <td>{location.city}, {location.country}</td>
             <td>{createdAt}</td>
           </tr>
           </tbody>
