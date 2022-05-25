@@ -9,7 +9,7 @@ export default function Home () {
   const [ip, setIp] = useState('0.0.0.0')
   const [createdAt, setCreatedAt] = useState('0000-00-00')
   const [geoLocation, setGeoLocation] = useState({ lat: '0.00', lon: '0.00' })
-  const [location, setLocation] = useState({ city: 'city', country: 'country' })
+  const [location, setLocation] = useState({ city: '', country: '' })
 
   const handleTrim = () => {
     let date = new Date()
@@ -24,6 +24,7 @@ export default function Home () {
     setIp('0.0.0.0')
     setCreatedAt('0000-00-00')
     setGeoLocation({ lat: '0.00', lon: '0.00' })
+    setLocation({city:'', country: ''})
 
   }
 
