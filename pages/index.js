@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button, Container, Row, Table } from 'react-bootstrap'
 import SignatureCanvas from 'react-signature-canvas'
 import gStyle from '../styles/Home.module.css'
+import axios from "axios";
 
 export default function Home () {
   const [sigPag, setSigPag] = useState({})
@@ -16,7 +17,7 @@ export default function Home () {
     setCreatedAt(date.toLocaleString())
     setTrimmedDataURL(sigPag.getTrimmedCanvas()
       .toDataURL('image/png'))
-    fetchIp().then(r => console.log(r))
+    fetchIp().then(r => console.log('data fetched'))
   }
   const handleClear = () => {
     sigPag.clear()
@@ -29,9 +30,8 @@ export default function Home () {
   }
 
   const fetchIp = async () => {
-    await fetch('https://ipapi.co/json/')
-      .then(response => response.json())
-      .then(data => {
+    await axios.get('https://ipapi.co/json/')
+      .then(({data}) => {
         setLocation({ city: data.city, country: data.country_name })
         setIp(data.ip)
         setGeoLocation({ lat: data.latitude, lon: data.longitude })
@@ -71,7 +71,7 @@ export default function Home () {
             <td><img src={trimmedDataURL} width={100}/></td>
             <td>{ip}</td>
             <td>Lat - {geoLocation.lat} , Long - {geoLocation.lon}</td>
-            <td>{location.city}, {location.country}</td>
+            <td>{`${location.city} ${location.country}`}</td>
             <td>{createdAt}</td>
           </tr>
           </tbody>
@@ -79,6 +79,7 @@ export default function Home () {
       </Row>
       <Row>
         <Button variant="primary" onClick={handleTrim}>Submit</Button>
+        <hr/>
         <Button variant="warning" onClick={handleClear}>Clear</Button>
       </Row>
     </Container>
